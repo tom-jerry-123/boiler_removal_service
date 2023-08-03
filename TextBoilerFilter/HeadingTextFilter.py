@@ -4,6 +4,7 @@
 # 非达标的几乎 100% 不是 Heading
 
 from enum import Enum
+from . import Tokenizer
 
 
 class TextType(Enum):
@@ -35,7 +36,7 @@ class HeadingTextFilter:
             raise TypeError("Input for text_type parameter not of class 'TextType'.")
 
         for text in element.xpath(wanted_text_xpath).getall():
-            num_words += len(text.strip().split())
+            num_words += len(Tokenizer.trim_and_tokenize(text))
 
         return num_words
 

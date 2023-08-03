@@ -2,6 +2,8 @@
 # Local ‘微观’ Filter
 # 靠元素词数来判定相关性
 
+from . import Tokenizer
+
 
 class NumWordsTextFilter:
     # Fix method to take care of chinese characters as well
@@ -9,7 +11,7 @@ class NumWordsTextFilter:
     def _count_words(element):
         num_words = 0
         for text in element.xpath(".//text()").getall():
-            num_words += len(text.strip().split())
+            num_words += len(Tokenizer.trim_and_tokenize(text))
         return num_words
 
     # Assign a score. 1 = keep, 0 = remove
