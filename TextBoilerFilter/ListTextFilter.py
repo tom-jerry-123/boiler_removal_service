@@ -12,4 +12,4 @@ class ListTextFilter:
         return 1 if self._is_list(element) else 0
 
     def pass_filter(self, element):
-        return self._is_list_element(element)
+        return self._is_list(element)
