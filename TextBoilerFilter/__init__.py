@@ -72,7 +72,7 @@ class TextBoilerFilter:
                 continue
             # 用附近元素判定认为可能是 heading 的是否真是 heading
             elif entry.passed_heading:
-                if i + 1 >= self._element_info_table:
+                if i + 1 >= len(self._element_info_table):
                     # 在文章底。肯定不是 heading。分为垃圾。
                     entry.classification = BlockType.BOILER
                 else:
