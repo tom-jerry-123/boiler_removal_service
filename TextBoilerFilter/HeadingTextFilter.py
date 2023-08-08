@@ -50,7 +50,7 @@ class HeadingTextFilter:
         elif num_italic_words / total_words > 0.35 or num_italic_words > 3:
             # 太多斜体 - 不是 heading
             return 0
-        elif text_block_element.xpath("self::h1 | self::h2 | self::h3").get() is not None:
+        elif text_block_element.xpath("self::h1 | self::h2 | self::h3 | self::h4").get() is not None:
             # HTML 用 heading tag。
             # print("Found heading tag: \n" + text_block_element.get())
             return 1
