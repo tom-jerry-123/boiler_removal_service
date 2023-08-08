@@ -8,20 +8,18 @@ from MainContentFilter import MainContentSelector
 class FilterSpider(scrapy.Spider):
     name = 'filter_spider'
     start_urls = [
-        "https://01node.com/nolus-vs-traditional-leasing-revolutionizing-defi-lease/",
-        "https://aptos.dev/concepts/node-networks-sync",
-        "https://opensea.io/learn/what-is-arbitrum",
+        "https://bitcoin.org/en/vocabulary",
     ]
     urls_parsed = set()
     layout_xpath_list = ["//body"]
     # xpath of text blocks
-    text_block_xpath = "//*[self::p or self::h1 or self::h2 or self::h3 or self::h4 or self::ul or self::ol " \
-                       "or self::div]" \
-                       "[not(descendant::p or descendant::div or descendant::h1 or descendant::h2)][descendant::text()]"
+    text_block_xpath = "//*[self::p or self::h1 or self::h2 or self::h3 or self::h4 or self::ul or self::ol or " \
+                       "self::div[not(descendant::div or ancestor::p or ancestor::h1 or ancestor::h2 or ancestor::h3)]]" \
+                       "[not(descendant::p or descendant::h1 or descendant::h2 or descendant::code)]" \
+                       "[descendant::text()]"
     # xpath of relevant text nodes
-    text_xpath = "//text()[(ancestor::p or ancestor::h1 or ancestor::h2 or ancestor::h3 " \
-                 "or ancestor::code or ancestor::li) " \
-                 "and not(ancestor::header or ancestor::nav or ancestor::footer)]"
+    text_xpath = "//text()[not(ancestor::header or ancestor::nav or ancestor::footer" \
+                 " or ancestor::script or ancestor::style or ancestor::a)]"
     strongly_protected_xpath = "//code"
     outfile_name = "ScrapedData/output-{}.md"
 
@@ -49,7 +47,7 @@ class FilterSpider(scrapy.Spider):
         main_content_filter.log_main_info(main_content_info, response.url, "output-{}.md".format(len(self.urls_parsed)+1))
 
         layout.xpath("//figcaption | //button | //script | //style").remove()
-        layout.xpath("//*[not(descendant::text())]").remove()
+        layout.xpath(".//*[not(descendant::text())]").remove()
 
         self.urls_parsed.add(response.url)
         self.output_website(layout)
